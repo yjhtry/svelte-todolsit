@@ -1,10 +1,12 @@
 <script>
-	import './styles.css';
+  import TheNav from '$lib/components/TheNav.svelte'
+  import './styles.css'
+
 </script>
 
-<div class="app">
-	<main>
-		<slot />
-	</main>
+<div class='app'>
+  <main>
+    <TheNav />
+    <slot />
+  </main>
 </div>
-
