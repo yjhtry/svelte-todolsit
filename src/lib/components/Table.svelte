@@ -54,7 +54,7 @@
                               record,
                               index,
                             )
-                            : column.dataIndex}
+                            : record[column.dataIndex]}
                         </div>
                       </div>
                     </td>

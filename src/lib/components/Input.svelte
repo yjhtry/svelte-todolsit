@@ -4,8 +4,8 @@
 
   const id = `input-${idGenerator.next().value}`
 
-  export let label: string = ''
-  export let value: string = ''
+  export let label = ''
+  export let value = ''
   export let layout: 'horizontal' | 'vertical' = 'horizontal'
 
   const dispatch = createEventDispatcher<{ change: { value: string } }>()

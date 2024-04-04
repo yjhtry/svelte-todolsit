@@ -2,13 +2,13 @@
   import { createEventDispatcher } from 'svelte'
   import { idGenerator } from '$lib/utils/createUniqueId'
 
-  const id = `textarea-${idGenerator.next().value}`
+  const id = `checkbox-${idGenerator.next().value}`
 
   export let label = ''
-  export let value = ''
+  export let value = false
   export let layout: 'horizontal' | 'vertical' = 'horizontal'
 
-  const dispatch = createEventDispatcher<{ change: { value: string } }>()
+  const dispatch = createEventDispatcher<{ change: { value: boolean } }>()
 
   $: dispatch('change', { value })
 
@@ -19,7 +19,7 @@
   {#if label}
     <label class='mr-1' for={id}>{`${label}:`}</label>
   {/if}
-  <textarea id={id} {...$$restProps} bind:value={value} />
+  <input type='checkbox' id={id} {...$$restProps} bind:checked={value} />
 </div>
 
 <style>

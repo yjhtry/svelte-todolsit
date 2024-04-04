@@ -16,6 +16,10 @@
       title: 'Completed',
       render: (value: boolean) => (value ? 'Yes' : 'No'),
     },
+    {
+      dataIndex: 'operation',
+      title: 'Operation',
+    },
   ] as Column<Todo>[]
 </script>
 
