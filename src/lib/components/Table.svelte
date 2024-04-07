@@ -2,23 +2,24 @@
   export interface Column<T> {
     dataIndex: keyof T
     title: string
-    render?: (value: any, record: T, index: number) => any
+    slot?: string
   }
 
 </script>
 
 <script lang='ts' generics='T extends object'>
-  interface Column<T> {
-    dataIndex: keyof T
-    title: string
-    render?: (value: any, record: T, index: number) => any
-  }
+  import type { Snippet } from 'svelte'
 
-  export let title: string = ''
-  export let dataSource: T[] = []
-  export let columns: Column<T>[] = []
+  // type TableProps = {
+  //   title?: string
+  //   dataSource: T[]
+  //   columns: Column<T>[]
+  // } & Record<string, Snippet<[T, number]>>
 
-  const headers = columns.map(column => column.title)
+  const { title, dataSource = $bindable([]), columns = $bindable([]), ...slotProps }: any = $props()
+
+  const headers = $derived.by(() => columns.map((column: any) => column.title))
+
 </script>
 
 <section class='bg-gray-100 text-gray-600 antialiased'>
@@ -48,13 +49,12 @@
                     <td class='whitespace-nowrap p-2'>
                       <div class='flex items-center'>
                         <div class='text-gray-800 font-medium'>
-                          {column.render
-                            ? column.render(
-                              record[column.dataIndex],
-                              record,
-                              index,
-                            )
-                            : record[column.dataIndex]}
+                          {#if slotProps[column.slot!]}
+                            {@const slotProp = slotProps[column.slot!]}
+                            <div>{@render slotProp(record, index)}</div>
+                          {:else}
+                            {record[column.dataIndex]}
+                          {/if}
                         </div>
                       </div>
                     </td>

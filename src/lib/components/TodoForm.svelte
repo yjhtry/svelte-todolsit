@@ -2,7 +2,7 @@
   import Input from '$lib/components/Input.svelte'
   import Textarea from '$lib/components/Textarea.svelte'
   import Checkbox from '$lib/components/Checkbox.svelte'
-  import { type Todo, todoStore } from '$lib/store/todo'
+  import { type Todo, todoStore } from '$lib/store/todo.svelte'
 
   export let data: Omit<Todo, 'id'> = {} as any
 

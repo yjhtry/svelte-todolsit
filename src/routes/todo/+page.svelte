@@ -1,6 +1,10 @@
 <script lang='ts'>
-  import { type Todo, todoStore } from '$lib/store/todo'
+  import { type Todo, todoStore } from '$lib/store/todo.svelte'
   import Table, { type Column } from '$lib/components/Table.svelte'
+
+  function onDel(record: Todo) {
+    todoStore.remove(record)
+  }
 
   const columns = [
     {
@@ -14,18 +18,24 @@
     {
       dataIndex: 'completed',
       title: 'Completed',
-      render: (value: boolean) => (value ? 'Yes' : 'No'),
     },
     {
       dataIndex: 'operation',
       title: 'Operation',
+      slot: 'operation'
     },
   ] as Column<Todo>[]
+
+
 </script>
 
 <div class='p-6'>
   <div class='mb-4 flex justify-end'>
     <a href='/todo/add' class='btn'>Add</a>
   </div>
-  <Table bind:dataSource={$todoStore} columns={columns} />
+  <Table dataSource={todoStore.todos} columns={columns as any}>
+    {#snippet operation(record: any)}
+      <button class="text-blue" on:click={() => onDel(record as any)}>Del</button>
+    {/snippet}
+  </Table>
 </div>
