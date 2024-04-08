@@ -1,25 +1,24 @@
 <script lang='ts'>
-  import { createEventDispatcher } from 'svelte'
   import { idGenerator } from '$lib/utils/createUniqueId'
 
-  const id = `textarea-${idGenerator.next().value}`
+  interface TextareaProps {
+    label?: string
+    value?: string
+    layout?: 'horizontal' | 'vertical'
+    [x: string]: any
+  }
 
-  export let label = ''
-  export let value = ''
-  export let layout: 'horizontal' | 'vertical' = 'horizontal'
+  let { label = '', value = $bindable(), layout = 'horizontal', ...restProps }: TextareaProps = $props()
 
-  const dispatch = createEventDispatcher<{ change: { value: string } }>()
-
-  $: dispatch('change', { value })
-
-  $: vertical = layout === 'vertical'
+  const id = `input-${idGenerator.next().value}`
+  const vertical = layout === 'vertical'
 
 </script>
 <div class='w-full flex items-center' class:vertical>
   {#if label}
     <label class='mr-1' for={id}>{`${label}:`}</label>
   {/if}
-  <textarea id={id} {...$$restProps} bind:value={value} />
+  <textarea id={id} {...restProps} bind:value={value} />
 </div>
 
 <style>

@@ -1,25 +1,24 @@
 <script lang='ts'>
-  import { createEventDispatcher } from 'svelte'
   import { idGenerator } from '$lib/utils/createUniqueId'
 
+  interface CheckboxProps {
+    label?: string
+    value?: boolean
+    layout?: 'horizontal' | 'vertical'
+    [x: string]: any
+  }
+
+  let { label = '', value = $bindable(), layout = 'horizontal', ...restProps }: CheckboxProps = $props()
+
+  const vertical = layout === 'vertical'
   const id = `checkbox-${idGenerator.next().value}`
-
-  export let label = ''
-  export let value = false
-  export let layout: 'horizontal' | 'vertical' = 'horizontal'
-
-  const dispatch = createEventDispatcher<{ change: { value: boolean } }>()
-
-  $: dispatch('change', { value })
-
-  $: vertical = layout === 'vertical'
 
 </script>
 <div class='w-full flex items-center' class:vertical>
   {#if label}
     <label class='mr-1' for={id}>{`${label}:`}</label>
   {/if}
-  <input type='checkbox' id={id} {...$$restProps} bind:checked={value} />
+  <input type='checkbox' id={id} {...restProps} bind:checked={value} />
 </div>
 
 <style>

@@ -1,4 +1,5 @@
 <script lang='ts'>
+
   import { type Todo, todoStore } from '$lib/store/todo.svelte'
   import Table, { type Column } from '$lib/components/Table.svelte'
 
@@ -16,8 +17,12 @@
       title: 'Title',
     },
     {
-      dataIndex: 'completed',
-      title: 'Completed',
+      dataIndex: 'description',
+      title: 'Description',
+    },
+    {
+      dataIndex: 'done',
+      title: 'Done',
     },
     {
       dataIndex: 'operation',
@@ -25,7 +30,6 @@
       slot: 'operation'
     },
   ] as Column<Todo>[]
-
 
 </script>
 
@@ -35,7 +39,10 @@
   </div>
   <Table dataSource={todoStore.todos} columns={columns as any}>
     {#snippet operation(record: any)}
-      <button class="text-blue" on:click={() => onDel(record as any)}>Del</button>
+      <div class="space-x-3">
+        <button class="text-blue" on:click={() => onDel(record as any)}>Del</button>
+        <a href={`/todo/edit/${record.id}`} class="text-blue">Edit</a>
+      </div>
     {/snippet}
   </Table>
 </div>

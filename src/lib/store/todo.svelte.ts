@@ -29,6 +29,7 @@ function createTodoStore() {
 
   return {
     get todos() { return todos },
+    findOne: (id: string) => todos.find(todo => todo.id === id),
     add: (todo: Todo) => todos.push(todo),
     update: (todo: Todo) => {
       const index = todos.findIndex(item => item.id === todo.id)

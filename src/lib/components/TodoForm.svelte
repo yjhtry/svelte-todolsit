@@ -1,13 +1,26 @@
 <script lang='ts'>
+  import { goto } from '$app/navigation'
   import Input from '$lib/components/Input.svelte'
   import Textarea from '$lib/components/Textarea.svelte'
   import Checkbox from '$lib/components/Checkbox.svelte'
   import { type Todo, todoStore } from '$lib/store/todo.svelte'
 
-  export let data: Omit<Todo, 'id'> = {} as any
+  interface FormProps {
+    row?: Todo
+    isEdit?: boolean
+  }
+
+  const { isEdit = false, row }: FormProps = $props()
+
+  const data = $state(row || ({} as any))
 
   function onSubmit() {
-    todoStore.add({ id: `${Date.now()}`, ...data })
+    if (isEdit)
+      todoStore.update(data)
+    else
+      todoStore.add({ ...data, id: `${Date.now()}` })
+
+    goto('/todo')
   }
 
 </script>
